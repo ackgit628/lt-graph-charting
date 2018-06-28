@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[sp_ChartItems]
 
 BEGIN
-	SELECT [t_dsca], [Source] FROM tblGraphItems order by [RawMaterialId]
+	SELECT * FROM tblGraphItems where Source is not null order by [RawMaterialId]
 END
 
 

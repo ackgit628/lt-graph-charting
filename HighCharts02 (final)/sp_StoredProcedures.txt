@@ -1,0 +1,28 @@
+CREATE PROCEDURE [dbo].[sp_ChartItems]
+
+BEGIN
+	SELECT [t_dsca], [Source] FROM tblGraphItems order by [RawMaterialId]
+END
+
+
+CREATE PROCEDURE [dbo].[sp_ChartPurchases]
+
+BEGIN
+	SELECT * FROM tblGraphPurchase
+END
+
+
+CREATE PROCEDURE [dbo].[sp_ChartMaterial] 
+	-- Add the parameters for the stored procedure here
+	@startDate date, 
+	@endDate date,
+	@materialID int
+AS
+BEGIN
+	select * from (
+	select [Date], [RateUnit] from tblGraphData where RawMaterialID = @materialID and [Date] between @startDate and @endDate
+	union all
+	select  top 1 [Date], [RateUnit]  from tblGraphData where RawMaterialID = @materialID and [date] < @startDate order by [date] desc
+	) a order by [Date] asc
+END
+
